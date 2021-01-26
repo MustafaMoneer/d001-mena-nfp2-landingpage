@@ -17,9 +17,11 @@
  * Define Global Variables
  * 
 */
-const pageSections = document.querySelectorAll("section");
+let pageSections = document.querySelectorAll("section");
 
 const navList = document.querySelector("#navbar__list");
+
+const navItems = document.querySelector('menu__link');
 
 const fragment = document.createDocumentFragment();
 /**
@@ -28,7 +30,90 @@ const fragment = document.createDocumentFragment();
  * 
 */
 
-function isAnyPartOfElementInViewport(el) {
+
+/**
+ * End Helper Functions
+ * Begin Main Functions
+ * 
+*/
+
+// build the nav
+
+pageSections.forEach( element => {
+    const sectionText = element.getAttribute('data-nav');
+    const sectionId = element.getAttribute('id');
+    let navLinks = document.createElement('li');
+    navLinks.classList.add('navbar__list__item');
+  navLinks.innerHTML = `<a href="#${sectionId}" class="menu__link">${sectionText}</a>`;
+  // Scroll to section on link click
+    navLinks.addEventListener('click', () => {
+        element.scrollIntoView({behavior: 'smooth'})
+        });
+        fragment.appendChild(navLinks);
+    });
+navList.appendChild(fragment);
+
+//Active nav
+function activaFunction(current) {
+  navItems.forEach((element) => {
+    if (element.getAttribute('href') == `#${current}`) {
+      element.classList.add("active");
+    }
+  });
+}
+/* const navItems = a.getElementsByClassName("menu__link");
+// Loop through the menu and add the active class to the current/clicked link
+for (let i = 0; i < navItems.length; i++) {
+  navItems[i].addEventListener("click", function () {
+    let current = document.getElementsByClassName('active');
+    current[0].className = current[0].className.replace(" active", "");
+    this.className += " active";
+  });
+} */
+
+
+/**
+ * End Main Functions
+ * Begin Events
+ * 
+*/
+
+// Build menu 
+window.addEventListener('DOMContentLoaded', () => {
+
+  //Element is in viewport function
+  function isElementInViewport(el) {
+    let rect = el.getBoundingClientRect();
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+  }
+//active current nav class
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const id = entry.target.getAttribute('id');
+      if (entry.intersectionRatio > 0) {
+        document.querySelector(`nav li a[href="#${id}"]`).parentElement.classList.add('active');
+      } else {
+        document.querySelector(`nav li a[href="#${id}"]`).parentElement.classList.remove('active');
+      }
+    });
+  });
+
+  // Track all sections that have an `id` applied
+  document.querySelectorAll('section[id]').forEach((section) => {
+    observer.observe(section);
+  });
+
+});
+
+// Set sections as active
+/* window.addEventListener('DOMContentLoaded', () => {
+
+  function isAnyPartOfElementInViewport(el) {
 
     const rect = el.getBoundingClientRect();
     // DOMRect { x: 8, y: 8, width: 100, height: 100, top: 8, right: 108, bottom: 108, left: 8 }
@@ -38,70 +123,27 @@ function isAnyPartOfElementInViewport(el) {
     // http://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap
     const vertInView = (rect.top <= windowHeight) && ((rect.top + rect.height) >= 0);
     const horInView = (rect.left <= windowWidth) && ((rect.left + rect.width) >= 0);
+  };
 
-    return (vertInView && horInView);
-}
-
-/**
- * End Helper Functions
- * Begin Main Functions
- * 
-*/
-
-// build the nav
-pageSections.forEach( element => {
-    let sectionText = element.getAttribute('data-nav');
-    let sectionId = element.getAttribute("id");
-    let navLinks = document.createElement('li');
-    navLinks.textContent = sectionText;
-    // Scroll to section on link click
-    navLinks.addEventListener('click', () => {
-        element.scrollIntoView({behavior: "smooth"})
-        });
-        fragment.appendChild(navLinks);
-    });
-navList.appendChild(fragment);
-
-/**
- * End Main Functions
- * Begin Events
- * 
-*/
-
-// Build menu 
-// Tried to make a clickable hyberlinks!
-
-/* pageSections.forEach( anchors => {
-    const bounding = pageSection.getBoundingClientRect();
-    let anchors = document.querySelector('li');
-    anchors.addEventListener('click', function(){
-        pageSections.forEach(target => {
-        if(bounding.top >= 0 && bounding.top <= 200) {    
-        target.classList.remove('your-active-class')};
-        this.classList.add('your-active-class');
-    });
-    anchors.target.href = navLinks.toDataURL()
-});
-navLinks.appendChild(anchors); */
-
-// Set sections as active
-  
-
-pageSections.forEach( pageSection => {
-    pageSection.addEventListener('click', function(){
-        pageSections.forEach(target => target.classList.remove('your-active-class'));
-this.classList.add('your-active-class');
-    });
-    function isElementInViewport(el) {
-        let rect = el.getBoundingClientRect();
-        return (
-          rect.top >= 0 &&
-          rect.left >= 0 &&
-          rect.bottom <= (window.innerHeight || document. documentElement.clientHeight) &&
-          rect.right <= (window.innerWidth || document. documentElement.clientWidth)
-        );
+//active current section class
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const div = document.querySelector('div');
+      if (entry.intersectionRatio > 0) {
+        div.parentElement.classList.add('your-active-class');
+      } else {
+        div.parentElement.classList.remove('your-active-class');
       }
-});
+    });
+  });
+
+  // Track all sections that have an `div` applied
+  document.querySelectorAll('div').forEach((section) => {
+    observer.observe(section);
+  });
+
+}); */
+
 
 /**
  * End Events
@@ -114,7 +156,17 @@ myButton = document.getElementById("myBtn");
 
 // When the user scrolls down 20px from the top of the document, show the button
 window.onscroll = function() {scrollFunction()};
+function isAnyPartOfElementInViewport(el) {
 
+  const rect = el.getBoundingClientRect();
+  // DOMRect { x: 8, y: 8, width: 100, height: 100, top: 8, right: 108, bottom: 108, left: 8 }
+  const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
+  const windowWidth = (window.innerWidth || document.documentElement.clientWidth);
+
+  // http://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap
+  const vertInView = (rect.top <= windowHeight) && ((rect.top + rect.height) >= 0);
+  const horInView = (rect.left <= windowWidth) && ((rect.left + rect.width) >= 0);
+};
 function scrollFunction() {
   if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
     myButton.style.display = "block";

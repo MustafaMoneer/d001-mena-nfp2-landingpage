@@ -68,11 +68,17 @@ section {
 /* ---- Module Rules ---- */
 
 /* Navigation Styles*/
-a {
+.navbar__menu a {
     display: inline-block;
-    background: #69c;
-    color: #fff;
+    background: rgba(217, 255, 0, 0.493);
+    color: rgb(4, 17, 1);
     padding: 5px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.navbar__menu a:hover{
+    background-color: #000;
 }
 
 .navbar__menu ul {
@@ -92,21 +98,23 @@ a {
     padding: 1em;
     font-weight: bold;
     text-decoration: none;
-    color: #000;
+    transition: ease 0.3s all;
 }
 
-.navbar__menu .menu__link:hover {
-    background: rgb(192, 224, 10);
-    color: rgb(36, 33, 1);
-    transition: ease 0.3s all;
+/* .navbar__menu .menu__link:hover {
+    background-color: #000;
+    color: #fff;
+    font-weight: bold;
+}
+ */
+.active{
+    background-color: #000;
+    color: #fff;
+    font-weight: bold;
 }
 
 #navbar__list {
     background: rgb(95, 143, 98);
-}
-
-.nav__hyperlink {
-	color: rgb(27, 87, 177);
 }
 
 .navbar__list__item {
