@@ -61,15 +61,6 @@ function activaFunction(current) {
     }
   });
 }
-/* const navItems = a.getElementsByClassName("menu__link");
-// Loop through the menu and add the active class to the current/clicked link
-for (let i = 0; i < navItems.length; i++) {
-  navItems[i].addEventListener("click", function () {
-    let current = document.getElementsByClassName('active');
-    current[0].className = current[0].className.replace(" active", "");
-    this.className += " active";
-  });
-} */
 
 
 /**
@@ -109,40 +100,6 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
 });
-
-// Set sections as active
-/* window.addEventListener('DOMContentLoaded', () => {
-
-  function isAnyPartOfElementInViewport(el) {
-
-    const rect = el.getBoundingClientRect();
-    // DOMRect { x: 8, y: 8, width: 100, height: 100, top: 8, right: 108, bottom: 108, left: 8 }
-    const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
-    const windowWidth = (window.innerWidth || document.documentElement.clientWidth);
-
-    // http://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap
-    const vertInView = (rect.top <= windowHeight) && ((rect.top + rect.height) >= 0);
-    const horInView = (rect.left <= windowWidth) && ((rect.left + rect.width) >= 0);
-  };
-
-//active current section class
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      const div = document.querySelector('div');
-      if (entry.intersectionRatio > 0) {
-        div.parentElement.classList.add('your-active-class');
-      } else {
-        div.parentElement.classList.remove('your-active-class');
-      }
-    });
-  });
-
-  // Track all sections that have an `div` applied
-  document.querySelectorAll('div').forEach((section) => {
-    observer.observe(section);
-  });
-
-}); */
 
 
 /**
